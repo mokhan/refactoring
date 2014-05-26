@@ -16,11 +16,7 @@ class Customer
     @rentals.each do |element|
       this_amount = amount_for(element)
       # add frequent renter points
-      frequent_renter_points += 1
-      # add bonus for a two day new release rental
-      if element.movie.price_code == Movie::NEW_RELEASE && element.days_rented > 1
-        frequent_renter_points += 1
-      end
+      frequent_renter_points += points_for(element)
       # show figures for this rental
       result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
       total_amount += this_amount
@@ -46,5 +42,14 @@ class Customer
       result += (rental.days_rented - 3) * 1.5 if rental.days_rented > 3
     end
     result
+  end
+
+  def points_for(element)
+    frequent_renter_points = 1
+    # add bonus for a two day new release rental
+    if element.movie.price_code == Movie::NEW_RELEASE && element.days_rented > 1
+      frequent_renter_points += 1
+    end
+    frequent_renter_points
   end
 end
