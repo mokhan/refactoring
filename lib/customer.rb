@@ -6,8 +6,8 @@ class Customer
     @rentals = []
   end
 
-  def add_rental(arg)
-    @rentals << arg
+  def add_rental(rental)
+    @rentals << rental
   end
 
   def statement
