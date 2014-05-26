@@ -37,11 +37,6 @@ class Customer
   end
 
   def points_for(rental)
-    frequent_renter_points = 1
-    # add bonus for a two day new release rental
-    if rental.movie.price_code == Movie::NEW_RELEASE && rental.days_rented > 1
-      frequent_renter_points += 1
-    end
-    frequent_renter_points
+    rental.points
   end
 end
