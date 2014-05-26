@@ -14,7 +14,7 @@ class Customer
     result = "Rental Record for #{@name}\n"
     @rentals.each do |element|
       # show figures for this rental
-      result += "\t" + element.movie.title + "\t" + amount_for(element).to_s + "\n"
+      result += "\t" + element.movie.title + "\t" + element.amount.to_s + "\n"
     end
     # add footer lines
     result += "Amount owed is #{total_amount_for(@rentals)}\n"
@@ -25,18 +25,10 @@ class Customer
   private
 
   def total_amount_for(rentals)
-    rentals.inject(0) { |sum, rental| sum + amount_for(rental) }
+    rentals.inject(0) { |sum, rental| sum + rental.amount }
   end
 
   def total_points_for(rentals)
-    rentals.inject(0) { |sum, rental| sum + points_for(rental) }
-  end
-
-  def amount_for(rental)
-    rental.amount
-  end
-
-  def points_for(rental)
-    rental.points
+    rentals.inject(0) { |sum, rental| sum + rental.points }
   end
 end
