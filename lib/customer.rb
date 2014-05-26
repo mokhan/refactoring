@@ -14,10 +14,9 @@ class Customer
     total_amount = 0
     result = "Rental Record for #{@name}\n"
     @rentals.each do |element|
-      this_amount = amount_for(element)
       # show figures for this rental
-      result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
-      total_amount += this_amount
+      result += "\t" + element.movie.title + "\t" + amount_for(element).to_s + "\n"
+      total_amount += amount_for(element)
     end
     # add footer lines
     result += "Amount owed is #{total_amount}\n"
