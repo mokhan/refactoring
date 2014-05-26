@@ -65,5 +65,14 @@ describe Customer do
         end
       end
     end
+
+    context "when a bunch of movies are rented" do
+      it "produces the correct statement" do
+        customer.add_rental(Rental.new(Movie.new("Star War I", Movie::CHILDRENS), 5))
+        customer.add_rental(Rental.new(Movie.new("Star War II", Movie::REGULAR), 5))
+        customer.add_rental(Rental.new(Movie.new("Star War III", Movie::NEW_RELEASE), 5))
+        customer.statement.should == "Rental Record for george\n\tStar War I\t4.5\n\tStar War II\t6.5\n\tStar War III\t15\nAmount owed is 26.0\nYou earned 4 frequent renter points"
+      end
+    end
   end
 end
