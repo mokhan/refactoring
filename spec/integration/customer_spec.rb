@@ -1,13 +1,14 @@
 require "spec_helper"
 
 describe Customer do
-  let(:customer) { Customer.new('george') }
+  let(:name) { 'george' }
+  let(:customer) { Customer.new(name) }
 
   describe "#statement" do
     context "when no activity has taken place" do
       it "produces an empty statement" do
         statement = customer.statement
-        statement.should == "Rental Record for george\nAmount owed is 0\nYou earned 0 frequent renter points"
+        statement.should == "Rental Record for #{name}\nAmount owed is 0\nYou earned 0 frequent renter points"
       end
     end
 
@@ -20,7 +21,7 @@ describe Customer do
         let(:days_rented) { 1 }
 
         it "produces the correct statement" do
-          customer.statement.should == "Rental Record for george\n\tstar wars\t2\nAmount owed is 2\nYou earned 1 frequent renter points"
+          customer.statement.should == "Rental Record for #{name}\n\tstar wars\t2\nAmount owed is 2\nYou earned 1 frequent renter points"
         end
       end
 
@@ -28,7 +29,7 @@ describe Customer do
         let(:days_rented) { 3 }
 
         it "produces the correct statement" do
-          customer.statement.should == "Rental Record for george\n\tstar wars\t3.5\nAmount owed is 3.5\nYou earned 1 frequent renter points"
+          customer.statement.should == "Rental Record for #{name}\n\tstar wars\t3.5\nAmount owed is 3.5\nYou earned 1 frequent renter points"
         end
       end
     end
@@ -39,7 +40,7 @@ describe Customer do
       before { customer.add_rental(Rental.new(movie, 1)) }
 
       it "produces the correct statement" do
-        customer.statement.should == "Rental Record for george\n\tstar wars\t3\nAmount owed is 3\nYou earned 1 frequent renter points"
+        customer.statement.should == "Rental Record for #{name}\n\tstar wars\t3\nAmount owed is 3\nYou earned 1 frequent renter points"
       end
     end
 
@@ -52,7 +53,7 @@ describe Customer do
         let(:days_rented) { 1 }
 
         it "produces the correct statement" do
-          customer.statement.should == "Rental Record for george\n\tstar wars\t3\nAmount owed is 3\nYou earned 1 frequent renter points"
+          customer.statement.should == "Rental Record for #{name}\n\tstar wars\t3\nAmount owed is 3\nYou earned 1 frequent renter points"
         end
       end
 
@@ -60,7 +61,7 @@ describe Customer do
         let(:days_rented) { 4 }
 
         it "produces the correct statement" do
-          customer.statement.should == "Rental Record for george\n\tstar wars\t9\nAmount owed is 9\nYou earned 2 frequent renter points"
+          customer.statement.should == "Rental Record for #{name}\n\tstar wars\t12\nAmount owed is 12\nYou earned 2 frequent renter points"
         end
       end
     end
