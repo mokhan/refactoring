@@ -28,11 +28,7 @@ class Customer
   private
 
   def total_points_for(rentals)
-    frequent_renter_points = 0
-    @rentals.each do |element|
-      frequent_renter_points += points_for(element)
-    end
-    frequent_renter_points
+    rentals.inject(0) { |sum, rental| sum + points_for(rental) }
   end
 
   def amount_for(rental)
