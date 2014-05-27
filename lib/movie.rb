@@ -1,47 +1,14 @@
-class Movie
-  REGULAR = 0
-  NEW_RELEASE = 1
-  CHILDRENS = 2
-
-  attr_reader :title
-  attr_accessor :price_code
-
-  def initialize(title, price_code)
-    @title, @price_code = title, price_code
-  end
-
-  def charge(days_rented)
-    price.charge(days_rented)
-  end
-
-  def frequent_renter_points(days_rented)
-    frequent_renter_points = 1
-    # add bonus for a two day new release rental
-    if price_code == Movie::NEW_RELEASE && days_rented > 1
-      frequent_renter_points += 1
-    end
-    frequent_renter_points
-  end
-
-  private
-
-  def price
-    case price_code
-    when Movie::REGULAR
-      RegularPrice.new
-    when Movie::NEW_RELEASE
-      NewReleasePrice.new
-    when Movie::CHILDRENS
-      ChildrensPrice.new
-    end
+module DefaultPoints
+  def points_to_award_for(days_rented)
+    1
   end
 end
 
 class RegularPrice
+  include DefaultPoints
+
   def charge(days_rented)
-    result = 2
-    result += (days_rented - 2) * 1.5 if days_rented > 2
-    result
+    2 + (days_rented > 2 ? (days_rented - 2) * 1.5 : 0)
   end
 end
 
@@ -51,12 +18,37 @@ class NewReleasePrice
     result += days_rented * 3
     result
   end
+
+  def points_to_award_for(days_rented)
+    frequent_renter_points = 1
+    frequent_renter_points += 1 if days_rented > 1
+    frequent_renter_points
+  end
 end
 
 class ChildrensPrice
+  include DefaultPoints
+
   def charge(days_rented)
     result = 1.5
     result += (days_rented - 3) * 1.5 if days_rented > 3
     result
   end
 end
+
+class Movie
+  attr_reader :title, :price
+
+  def initialize(title, price)
+    @title, @price = title, price
+  end
+
+  def charge(days_rented)
+    price.charge(days_rented)
+  end
+
+  def frequent_renter_points(days_rented)
+    price.points_to_award_for(days_rented)
+  end
+end
+

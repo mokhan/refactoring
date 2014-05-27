@@ -13,7 +13,7 @@ describe Customer do
     end
 
     context "when a regular movie is rented" do
-      let(:movie) { Movie.new('star wars', Movie::REGULAR) }
+      let(:movie) { Movie.new('star wars', RegularPrice.new) }
 
       before { customer.add_rental(Rental.new(movie, days_rented)) }
 
@@ -35,7 +35,7 @@ describe Customer do
     end
 
     context "when a new release is rented" do
-      let(:movie) { Movie.new('star wars', Movie::NEW_RELEASE) }
+      let(:movie) { Movie.new('star wars', NewReleasePrice.new) }
 
       before { customer.add_rental(Rental.new(movie, 1)) }
 
@@ -45,7 +45,7 @@ describe Customer do
     end
 
     context "when a childrens movie is rented" do
-      let(:movie) { Movie.new('star wars', Movie::NEW_RELEASE) }
+      let(:movie) { Movie.new('star wars', NewReleasePrice.new) }
 
       before { customer.add_rental(Rental.new(movie, days_rented)) }
 
@@ -68,9 +68,9 @@ describe Customer do
 
     context "when a bunch of movies are rented" do
       it "produces the correct statement" do
-        customer.add_rental(Rental.new(Movie.new("Star War I", Movie::CHILDRENS), 5))
-        customer.add_rental(Rental.new(Movie.new("Star War II", Movie::REGULAR), 5))
-        customer.add_rental(Rental.new(Movie.new("Star War III", Movie::NEW_RELEASE), 5))
+        customer.add_rental(Rental.new(Movie.new("Star War I", ChildrensPrice.new), 5))
+        customer.add_rental(Rental.new(Movie.new("Star War II", RegularPrice.new), 5))
+        customer.add_rental(Rental.new(Movie.new("Star War III", NewReleasePrice.new), 5))
         customer.statement.should == "Rental Record for george\n\tStar War I\t4.5\n\tStar War II\t6.5\n\tStar War III\t15\nAmount owed is 26.0\nYou earned 4 frequent renter points"
       end
     end

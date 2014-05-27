@@ -1,13 +1,13 @@
 class Customer
   attr_reader :name
 
-  def initialize(name)
+  def initialize(name, rentals = [])
     @name = name
-    @rentals = []
+    @rentals = rentals
   end
 
   def add_rental(rental)
-    @rentals << rental
+    @rentals.push(rental)
   end
 
   def statement
